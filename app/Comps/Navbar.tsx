@@ -49,6 +49,9 @@ const Links = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and(min-width:280px) and (max-width:1000px){
+    display:none;
+  }
 `
 const NavLink = styled.a`
   margin: 0 10px;

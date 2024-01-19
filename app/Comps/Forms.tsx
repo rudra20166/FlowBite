@@ -6,89 +6,34 @@ import google from '../media/google.png'
 import github from '../media/github.png'
 import checkIcon from '../media/check-icon.png'
 import Link from 'next/link'
+
 import logoImage from '../media/logo.png'
-import { useForm,SubmitHandler } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodError } from 'zod';
-
-
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 type Inputs = {
-  email: string;
-  password: string;
-}
-const schema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string().min(6, 'Password must be at least 6 characters').max(20, 'Password must be at most 20 characters'),
-});
-export default function HeroSectionOne () {
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+    email: string;
+    password: string;
+  }
+  const schema = z.object({
+    email: z.string().email('Invalid email'),
+    password: z.string().min(6, 'Password must be at least 6 characters').max(20, 'Password must be at most 20 characters'),
+  });
+export default function Forms() {
+
+
+    const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
 
   
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>({
-    resolver: zodResolver(schema),
-  });
-
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<Inputs>({
+      resolver: zodResolver(schema),
+    });
   return (
-    
-      <Hero>
-        <HeroLeft>
-        
-        <LogoSec>
-            <Logo>
-              <Imagecomp src={logoImage} alt="Your Company Logo" />
-              <Title>Flowbite</Title>
-            </Logo>
-          </LogoSec>
-            
-          <TextArea>
-           
-            <TextSection>
-              <Heading>
-                {' '}
-                <CheckIcon>
-                  <Image src={checkIcon} alt='Your Company Logo' />
-                </CheckIcon>
-                Get started quickly{' '}
-              </Heading>
-              <SubHeading>
-                Integrate with developer-friendly APIs or choose low-code or
-                pre-built solutions.
-              </SubHeading>
-            </TextSection>
-            <TextSection>
-              <Heading>
-                {' '}
-                <CheckIcon>
-                  <Image src={checkIcon} alt='Your Company Logo' />
-                </CheckIcon>
-                Get Started Quickly
-              </Heading>
-              <SubHeading>
-                Integrate with developer-friendly APIs or choose low-code or
-                pre-built solutions.
-              </SubHeading>
-            </TextSection>
-            <TextSection>
-              <Heading>
-                {' '}
-                <CheckIcon>
-                  <Image src={checkIcon} alt='Your Company Logo' />
-                </CheckIcon>
-                Get Started Quickly
-              </Heading>
-              <SubHeading>
-                Integrate with developer-friendly APIs or choose low-code or
-                pre-built solutions.
-              </SubHeading>
-            </TextSection>
-          </TextArea>
-        </HeroLeft>
-        <HeroRight>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
     <FormHeading>Welcome Back</FormHeading>
     <SignUpSec>
         <GoogleIcon>
@@ -127,9 +72,6 @@ export default function HeroSectionOne () {
     <BottomLine>Don't have an accoutn yet? <Sideline href='#'>Sign up</Sideline> </BottomLine>
 
     </Form>
-        </HeroRight>
-      </Hero>
-  
   )
 }
 const Logo = styled.div`
@@ -239,9 +181,7 @@ const SignUpSec=styled.div`
 
     gap:1em;
     margin-top:1em;
-    @media screen and(min-width:280px) and (max-width:1000px){
-      flex-direction:column;
-    }
+  
 
 `
 const Separator=styled.div`

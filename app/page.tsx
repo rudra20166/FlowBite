@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import PageOne from './Comps/PageOne'
 import PageTwo from './Comps/PageTwo'
 import PageThree from './Comps/PageThree'
+import Forms from './Comps/Forms'
 export default function page() {
   return (
     <Page>

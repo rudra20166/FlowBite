@@ -7,21 +7,28 @@ import logoImage from "../media/logo.png";
 import LogoComp from "./LogoComp";
 import User1 from '../media/user1.png'
 import User2 from '../media/user2.png'
-import {useForm, SubmitHandler} from 'react-hook-form'
 
-type Inputs ={
-  email:String;
-  password:String;
+import { z, ZodError } from 'zod';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+type Inputs = {
+  email: string;
+  password: string;
 }
+const schema = z.object({
+  email: z.string().email('Invalid email'),
+  password: z.string().min(6, 'Password must be at least 6 characters').max(20, 'Password must be at most 20 characters'),
+});
 export default function PageThree() {
 
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<Inputs>()
-
+  } = useForm<Inputs>({
+    resolver: zodResolver(schema),
+  });
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
   return (
     <Page3>
@@ -51,10 +58,10 @@ export default function PageThree() {
           <Inputs>
             <Label>Email</Label>
             <Input type="text" placeholder="name@example.com" {...register('email', { required: true })}/>
-            {errors.email && <span style={{ color: '#ed1515' }}>Email is required</span>}
+            {errors.email && <div style={{ color: '#ed1515' }}>{(errors.email as ZodError).message}</div>}
             <Label>Password</Label>
             <Input type="password" placeholder="•••••••••••••••••" {...register('password', { required: true })}/>
-            {errors.password && <span style={{ color: '#ed1515' }}>Password is required</span>}
+            {errors.password && <div style={{ color: '#ed1515' }}>{(errors.password as ZodError).message}</div>}
           </Inputs>
           <SubTag>
             <RememberSec>

@@ -6,25 +6,30 @@ import github from '../media/github.png'
 import Footer from './Footer'
 import office from '../media/office.png'
 import logoImage from '../media/logo.png'
-import { useForm,SubmitHandler} from 'react-hook-form'
 
+import { z, ZodError } from 'zod';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 
 type Inputs = {
   email: string;
   password: string;
 }
-
+const schema = z.object({
+  email: z.string().email('Invalid email'),
+  password: z.string().min(6, 'Password must be at least 6 characters').max(20, 'Password must be at most 20 characters'),
+});
 
 export default function HeroSectionTwo() {
 
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<Inputs>()
-
+  } = useForm<Inputs>({
+    resolver: zodResolver(schema),
+  });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
   return (
@@ -43,12 +48,13 @@ export default function HeroSectionTwo() {
             <Input1>
             <Label>Email</Label>
             <Input type="text" placeholder="name@example.com" {...register('email', { required: true })}/>
-            {errors.email && <span style={{ color: '#ed1515' }}>Email is required</span>}
+            {errors.email && <div style={{ color: '#ed1515' }}>{(errors.email as ZodError).message}</div>}
             </Input1>
             <Input2>
             <Label>Password</Label> 
             <Input type="password" placeholder="•••••••••••••••••" {...register('password', { required: true })}/>
-            {errors.password && <span style={{ color: '#ed1515' }}>Password is required</span>}
+            {errors.password && <div style={{ color: '#ed1515' }}>{(errors.password as ZodError).message}</div>}
+            
             </Input2>
             </Inputs>
             <Separator>

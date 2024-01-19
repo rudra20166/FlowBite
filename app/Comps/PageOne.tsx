@@ -9,7 +9,7 @@ export default function PageOne() {
     <Page1>
       <Navbar/>
       <HeroSection/>
-      <Footer/>
+      
         
     </Page1>
   )
