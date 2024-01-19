@@ -6,11 +6,31 @@ import github from '../media/github.png'
 import Footer from './Footer'
 import office from '../media/office.png'
 import logoImage from '../media/logo.png'
+import { useForm,SubmitHandler} from 'react-hook-form'
+
+
+
+type Inputs = {
+  email: string;
+  password: string;
+}
+
+
 export default function HeroSectionTwo() {
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>()
+
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
   return (
     <Hero2>
         <CompSection>
-            <CompLeft>
+            <Form onSubmit={handleSubmit(onSubmit)}>
             <LogoSec>
             <Logo>
               <Imagecomp src={logoImage} alt="Your Company Logo" />
@@ -22,12 +42,13 @@ export default function HeroSectionTwo() {
             <Inputs>
             <Input1>
             <Label>Email</Label>
-            <Input type="text" placeholder="name@example.com"/>
-           
+            <Input type="text" placeholder="name@example.com" {...register('email', { required: true })}/>
+            {errors.email && <span style={{ color: '#ed1515' }}>Email is required</span>}
             </Input1>
             <Input2>
-            <Label>Password</Label>
-            <Input type="password" placeholder="•••••••••••••••••"/>
+            <Label>Password</Label> 
+            <Input type="password" placeholder="•••••••••••••••••" {...register('password', { required: true })}/>
+            {errors.password && <span style={{ color: '#ed1515' }}>Password is required</span>}
             </Input2>
             </Inputs>
             <Separator>
@@ -54,7 +75,7 @@ export default function HeroSectionTwo() {
             </SubTag>
             <LoginButton>Sign in</LoginButton>
 
-            </CompLeft>
+            </Form>
             <CompRight>
               <ImageOffice src={office}/>
             </CompRight>
@@ -206,11 +227,12 @@ const TopLine=styled.div`
     align-items:center;
 `
 
-const CompLeft=styled.form`
+const Form=styled.form`
 width:40%;
 border-radius:8px;
 box-shadow: 0px  1px 8px rgba(0, 0, 0, 0.1);
 padding:1.5em;
+box-sizing:border-box;
 `
 const CompRight=styled.div`
 width:40%;

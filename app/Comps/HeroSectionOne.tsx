@@ -7,8 +7,27 @@ import github from '../media/github.png'
 import checkIcon from '../media/check-icon.png'
 import Link from 'next/link'
 import logoImage from '../media/logo.png'
+import { useForm,SubmitHandler } from 'react-hook-form'
 
+
+
+
+type Inputs = {
+  email: string;
+  password: string;
+}
 export default function HeroSectionOne () {
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+
+  
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>()
+
+
   return (
     
       <Hero>
@@ -65,7 +84,7 @@ export default function HeroSectionOne () {
           </TextArea>
         </HeroLeft>
         <HeroRight>
-            <Form>
+            <Form onSubmit={handleSubmit(onSubmit)}>
             <FormHeading>Welcome Back</FormHeading>
             <SignUpSec>
                 <GoogleIcon>
@@ -84,9 +103,12 @@ export default function HeroSectionOne () {
             </Separator>
             <Inputs>
             <Label>Email</Label>
-            <Input type="text" placeholder="name@example.com"/>
+            <Input type="text" placeholder="name@example.com" {...register('email', { required: true })}/>
+            {errors.email && <span style={{ color: '#ed1515' }}>Email is required</span>}
             <Label>Password</Label>
-            <Input type="password" placeholder="•••••••••••••••••"/>
+            <Input type="password" placeholder="•••••••••••••••••" {...register('password', { required: true })}/>
+            {errors.password && <span style={{ color: '#ed1515' }}>Password is required</span>}
+            
             </Inputs>
             <SubTag>
               <RememberSec>
@@ -262,11 +284,12 @@ const FormHeading=styled.div`
     font-size:1.5em;
     font-weight:bold;
 `
-const Form=styled.div`
+const Form=styled.form`
    
     border-radius:8px;
     box-shadow: 0px  1px 8px rgba(0, 0, 0, 0.1);
     padding:1.5em;
+    box-sizing:border-box;
 `
 
 

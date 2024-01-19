@@ -7,11 +7,26 @@ import logoImage from "../media/logo.png";
 import LogoComp from "./LogoComp";
 import User1 from '../media/user1.png'
 import User2 from '../media/user2.png'
+import {useForm, SubmitHandler} from 'react-hook-form'
+
+type Inputs ={
+  email:String;
+  password:String;
+}
 export default function PageThree() {
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>()
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
   return (
     <Page3>
       <Compleft>
-        <Form>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <FormHeading>Welcome Back</FormHeading>
           <SignUpSec>
             <GoogleIcon>
@@ -35,9 +50,11 @@ export default function PageThree() {
           </Separator>
           <Inputs>
             <Label>Email</Label>
-            <Input type="text" placeholder="name@example.com" />
+            <Input type="text" placeholder="name@example.com" {...register('email', { required: true })}/>
+            {errors.email && <span style={{ color: '#ed1515' }}>Email is required</span>}
             <Label>Password</Label>
-            <Input type="password" placeholder="•••••••••••••••••" />
+            <Input type="password" placeholder="•••••••••••••••••" {...register('password', { required: true })}/>
+            {errors.password && <span style={{ color: '#ed1515' }}>Password is required</span>}
           </Inputs>
           <SubTag>
             <RememberSec>
@@ -53,6 +70,9 @@ export default function PageThree() {
             Don't have an accoutn yet? <Sideline href="#">Sign up</Sideline>{" "}
           </BottomLine>
         </Form>
+        <Foot>
+        © 2021 Flowbite, LLC. All rights reserved.
+        </Foot>
       </Compleft>
       <CompRight>
         <SubComp>
@@ -87,7 +107,12 @@ const UserImage=styled(Image)`
     width:1.5em;
     height:1.5em;
 `
-const Comphead=styled.h1`
+const Foot=styled.div`
+  margin-top:4em;
+  padding:0em 7em;
+  color:gray;
+`
+  const Comphead=styled.h1`
           color:white;  
           font-size:2em;
           margin-top:1em;
@@ -265,8 +290,9 @@ const Page3 = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const Form = styled.div`
+const Form = styled.form`
   padding: 0em 7em;
+  box-sizing:border-box;
 `;
 
 const Compleft = styled.div`

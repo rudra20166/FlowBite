@@ -2,12 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
 import logoImage from '../media/logo.png'
+import Link from 'next/link'
 
 export default function LogoComp() {
   return (
     <Logo>
           <Imagecomp src={logoImage} alt='Your Company Logo' />
-          <Title>Flowbite</Title>
+          <Title href="#">Flowbite</Title>
     </Logo>
   )
 }
@@ -21,7 +22,7 @@ const Imagecomp=styled(Image)`
 width: 2em;
 
 `
-const Title = styled.h1`
+const Title = styled(Link)`
   font-weight: bold;
   font-size: 1.5em;
 `
